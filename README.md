@@ -25,22 +25,22 @@ Due to the `output` and `input` folders' size, the corresponding data can be fou
 2. Clone or download this repository to your local computer.
 3. Run the code. If you are familiarized with Docker we recommend you to follow option `a)`, which provides you an R running environment. Otherwise, you can follow option `b)`, which requires Rstudio and to install manually the necessary libraries.
 
-a) Download [Docker](https://docs.docker.com/get-docker/), open Docker Desktop, and download the following docker image through your console:
-```base
-docker pull claudiarodes/implications_sustainable_diets:diets_v1
-```
-Run the docker image adjusting the full path to the repository folder:
-```bash
-docker run -v /full_path_to_the_repository_folder/implications_sustainable_diets:/app -it implications_sustainable_diets 
-```
-Run the `R/paper_analysis.R`script to produce all the figures of the study, both from the main manuscript and the supplementary information and the `R/paper_methodology.R` script in to produce the graphics to illustrate the  ensemble design and uncertainty dimensions considered in the study.
+    a) Download [Docker](https://docs.docker.com/get-docker/), open Docker Desktop, and download the following Docker image through your console:
+      ```base
+      docker pull claudiarodes/implications_sustainable_diets:diets_v1
+      ```
+      Run the docker image adjusting the full path to the repository folder:
+      ```bash
+      docker run -v /full_path_to_the_repository_folder/implications_sustainable_diets:/app -it implications_sustainable_diets 
+      ```
+      Run the `R/paper_analysis.R` script to produce all the figures of the study, both from the main manuscript and the supplementary information and the `R/paper_methodology.R` script to produce the graphics to illustrate the  ensemble design and uncertainty dimensions considered in the study.
 
-b) Download [RStudio](https://posit.co/products/open-source/rstudio/), open it, and run the `R/paper_analysis.R`script to produce all the figures of the study, both from the main manuscript and the supplementary information and the `R/paper_methodology.R` script in to produce the graphics to illustrate the  ensemble design and uncertainty dimensions considered in the study.
+    b) Download [RStudio](https://posit.co/products/open-source/rstudio/), open it, and run the `R/paper_analysis.R`script to produce all the figures of the study, both from the main manuscript and the supplementary information and the `R/paper_methodology.R` script in to produce the graphics to illustrate the  ensemble design and uncertainty dimensions considered in the study.
 
 
 ## Funding acknowledgement
 
-<img src="./logo.png" alt="IAM COMPACT logos" width="130" height="45" align="left"/>
+<img src="./logo.png" alt="IAM COMPACT logos" width="130" height="40" align="left"/>
 This project has received funding from the European Union's Horizon 2020 research and innovation program under grant agreement number 101056306 (IAM COMPACT project).
 
 
