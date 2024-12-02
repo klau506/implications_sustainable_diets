@@ -2,7 +2,8 @@ require(plyr)
 require(vioplot)
 require(ggpattern)
 require(waterfall)
-
+library(ggplot2)
+library(data.table)
 
 prob_distrib_nutrients = function(df, y, type) {
 
@@ -15,7 +16,7 @@ prob_distrib_nutrients = function(df, y, type) {
                 by=c('year','type','region',
                      'scen_type','scen_path')]
 
-  df = data.table(df)
+  df = data.table::data.table(df)
 
   if (type == 'micronutrient') {
     xlab = 'Micronutrient consumption [msg/capita/day]'
@@ -74,7 +75,7 @@ prob_distrib_nutrients = function(df, y, type) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = ggpubr::get_legend(pl1 +
+  legend = cowplot::get_legend(pl1 +
                                 theme(legend.direction = 'horizontal'))
 
   pl <- cowplot::ggdraw() +
@@ -162,7 +163,7 @@ cum_fun_nutrients = function(df, y, type) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = ggpubr::get_legend(pl1 +
+  legend = cowplot::get_legend(pl1 +
                                 theme(legend.direction = 'horizontal'))
 
   pl <- cowplot::ggdraw() +
@@ -355,7 +356,7 @@ cum_fun_water = function(df, y) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = ggpubr::get_legend(pl1 +
+  legend = cowplot::get_legend(pl1 +
                                 theme(legend.direction = 'horizontal'))
 
   pl <- cowplot::ggdraw() +
@@ -442,7 +443,7 @@ rfd_index_water = function(index, y) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend_color = ggpubr::get_legend(ggplot() +
+  legend_color = cowplot::get_legend(ggplot() +
                                 geom_col(data = index_reg,
                                                  aes(x = scen_type, y = rfd_per, color = scen_type, fill = scen_type,
                                                      linetype = scen_path),
@@ -466,7 +467,7 @@ rfd_index_water = function(index, y) {
                                        fill = guide_legend(override.aes = list(linewidth = 5)),
                                        linetype = 'none'))
 
-  legend_pattern <- ggpubr::get_legend(ggplot() +
+  legend_pattern <- cowplot::get_legend(ggplot() +
                                          geom_col_pattern(data = index_reg %>% filter(region == unique(index_reg$region)[1]),
                                                           aes(x = scen_type, y = rfd_per, color = scen_type, fill = scen_type,
                                                               pattern = scen_path),
@@ -484,7 +485,7 @@ rfd_index_water = function(index, y) {
                                          guides(color = 'none',
                                                 fill = 'none'))
 
-  legend_linetype = ggpubr::get_legend(ggplot() +
+  legend_linetype = cowplot::get_legend(ggplot() +
                                 geom_segment(data = index_ref_reg,
                                              aes(x = 0.25, xend = 3.75, y = rfd_per, yend = rfd_per,
                                                  linetype = scen_path), linewidth = 2) +
@@ -806,7 +807,7 @@ cum_fun_health = function(df, y) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = ggpubr::get_legend(pl1 +
+  legend = cowplot::get_legend(pl1 +
                                 theme(legend.direction = 'horizontal'))
 
   pl <- cowplot::ggdraw() +
@@ -900,7 +901,7 @@ cum_fun_foodbasket = function(df, y) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = ggpubr::get_legend(pl1 +
+  legend = cowplot::get_legend(pl1 +
                                 theme(legend.direction = 'horizontal'))
 
   pl <- cowplot::ggdraw() +
@@ -992,7 +993,7 @@ cum_fun_policyCost = function(df, y) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = ggpubr::get_legend(pl1 +
+  legend = cowplot::get_legend(pl1 +
                                 theme(legend.direction = 'horizontal'))
 
   pl <- cowplot::ggdraw() +
@@ -1019,13 +1020,13 @@ prob_distrib_policyCost = function(df, y) {
     dplyr::filter(year == y) %>%
     dplyr::mutate(scen_type = toupper(scen_type)) %>%
     cut_region_names() %>%
-    as.data.table()
+    data.table::as.data.table()
 
   df_medi <- df[, .(medi = quantile(value, 0.5)),
                 by=c('year','region',
                      'scen_type','scen_path')]
 
-  df = data.table(df)
+  df = data.table::data.table(df)
   xlab = 'Policy Cost [million 1990$]'
 
   for (i in c(1,2)) {
@@ -1090,7 +1091,7 @@ prob_distrib_policyCost = function(df, y) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = ggpubr::get_legend(pl1 +
+  legend = cowplot::get_legend(pl1 +
                                 theme(legend.direction = 'horizontal'))
 
   pl <- cowplot::ggdraw() +

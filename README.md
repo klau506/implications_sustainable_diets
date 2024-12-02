@@ -27,7 +27,7 @@ Due to the `output` and `input` folders' size, the corresponding data can be fou
 
     a) Download [Docker](https://docs.docker.com/get-docker/), open Docker Desktop, and download the following Docker image through your console:
       ```base
-      docker pull claudiarodes/implications_sustainable_diets:diets_v1
+      docker pull claudiarodes/implications_sustainable_diets:diets_v2
       ```
       Run the docker image adjusting the full path to the repository folder:
       ```bash

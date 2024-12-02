@@ -14,6 +14,19 @@ RUN apt-get update \
     libfribidi-dev \
     git
 
+# Use an updated source to install GDAL 3.x and PROJ 6.x or later
+RUN apt-get update && apt-get install -y \
+software-properties-common && \
+add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && \
+apt-get update && apt-get install -y \
+gdal-bin \
+libgdal-dev \
+proj-bin \
+libproj-dev \
+proj-data \
+&& apt-get clean
+
+
 # install pkgs
 RUN apt-get update
 RUN R -e "install.packages('remotes')"
@@ -39,7 +52,19 @@ RUN R -e "install.packages('magick')"
 RUN R -e "install.packages('viridis')"
 RUN R -e "install.packages('ggforce')"
 RUN R -e "install.packages('cowplot')"
-RUN R -e "install.packages('ggpubr')"
+RUN R -e "install.packages('plyr')"
+RUN R -e "install.packages('vioplot')"
+RUN R -e "install.packages('ggpattern')"
+RUN R -e "install.packages('waterfall')"
+RUN R -e "install.packages('terra')"
+RUN R -e "install.packages('sf')"
+RUN R -e "install.packages('raster')"
+RUN R -e "install.packages('rworldmap')"
+RUN R -e "install.packages('raster')"
+RUN R -e "install.packages('tidyterra')"
+RUN R -e "remotes::install_github('JGCRI/rmap')"
+RUN R -e "remotes::install_github('bc3LC/rfasst')"
+RUN R -e "install.packages('rnaturalearth')"
 
 # clone repo
 RUN apt-get install -y git

@@ -4,3 +4,9 @@
 .Ruserdata
 /data/output
 /data/inputs
+/figures
+/input/mappings
+/input/nutrition
+/output/datasets
+/input/queries
+output/queries_mort1.RData

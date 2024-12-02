@@ -7,7 +7,7 @@ library(patchwork)
 
 sdg0_scen_path_probdistrib <- function() {
   
-  population_weights = get(load(file = file.path('inputs/nutrition/population_weigths.RData')))
+  population_weights = get(load(file = file.path('input/nutrition/population_weigths.RData')))
   
   ##### PLANT
   df_plot <- plant_percentage %>%
@@ -248,12 +248,12 @@ sdg0_scen_path_probdistrib <- function() {
 
   # Insert the custom legend into the plot
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend_color = ggpubr::get_legend(p_rumin +
-                                      theme(legend.direction = 'vertical') +
-                                      guides(shape = 'none'))
-  legend_shape = ggpubr::get_legend(p_rumin +
-                                      theme(legend.direction = 'vertical') +
-                                      guides(color = 'none', fill = 'none'))
+  legend_color = cowplot::get_legend(p_rumin +
+                                      ggplot2::theme(legend.direction = 'vertical') +
+                                      ggplot2::guides(shape = 'none'))
+  legend_shape = cowplot::get_legend(p_rumin +
+                                      ggplot2::theme(legend.direction = 'vertical') +
+                                      ggplot2::guides(color = 'none', fill = 'none'))
 
   pl <- cowplot::ggdraw() +
     cowplot::draw_plot(cowplot::plot_grid(legend_color,blank_p,ncol=1), x = 0.4615, y = -0.2275, width = 1, height = 1) +
