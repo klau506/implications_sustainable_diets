@@ -98,7 +98,7 @@ spp_protein_plus <- ggplot(data = plot_data %>%
             linewidth = 1.5) +
   # palettes
   scale_y_continuous(breaks = seq(0, 100, by = 10)) +  # scale_y_continuous(breaks = seq(0.1, 1, by = 0.1)) +
-  scale_color_manual(values = palette_color, name = 'Share Increase') +
+  scale_color_manual(values = palette_color, name = 'Share\nIncrease') +
   scale_linetype_manual(values = palette_linetype, name = 'Peak Year') +
   facet_wrap(. ~ region, nrow = 8) +
   labs(x = '', y = 'Plant Protein Consumption [%]') +
@@ -160,7 +160,7 @@ spp_protein_plus_india <- ggplot(data = plot_data %>%
             linewidth = 1.5) +
   # palettes
   scale_y_continuous(breaks = seq(0, 100, by = 10)) +  # scale_y_continuous(breaks = seq(0.1, 1, by = 0.1)) +
-  scale_color_manual(values = palette_color, name = 'Share Increase') +
+  scale_color_manual(values = palette_color, name = 'Share\nIncrease') +
   scale_linetype_manual(values = palette_linetype, name = 'Peak Year') +
   labs(x = '', y = 'Plant Protein Consumption [%]') +
   # theme
@@ -256,7 +256,7 @@ snr_protein_plus <- ggplot(data = plot_data %>%
             linewidth = 1.5) +
   # palettes
   scale_y_continuous(breaks = seq(0, 100, by = 10)) +  # scale_y_continuous(breaks = seq(0.1, 1, by = 0.1)) +
-  scale_color_manual(values = palette_color, name = 'Share Decrease') +
+  scale_color_manual(values = palette_color, name = 'Share\nDecrease') +
   scale_linetype_manual(values = palette_linetype, name = 'Peak Year') +
   facet_wrap(. ~ region, nrow = 8) +
   labs(x = '', y = 'Ruminant Protein Consumption [%]') +
@@ -948,7 +948,10 @@ cum_fun_water(ag_water_consumption_regional, year_fig)
 pl = cowplot::ggdraw() +
   cowplot::draw_plot(FIG_LANDWATER_land_indicator_global_forestLand_map, x = 0.01, y = 0.55, width = 0.95, height = 0.6) +
   cowplot::draw_plot(pl_land_use_diffAbs_boxplot_world +
-                       labs(y = expression(paste('[Thous. ', km^2,']'))), x = 0.01, y = 0.30, width = 0.95, height = 0.4) +
+                       labs(y = expression(paste('      Area diff from\nReference [Thous. ', km^2,']'))) + 
+                       theme(
+                         axis.title.y = element_text(angle = 90, vjust = 0.5, hjust = 0.5)
+                       ), x = 0.01, y = 0.30, width = 0.95, height = 0.4) +
   cowplot::draw_plot(FIG_LANDWATER_sdg6_water_index_map, x = 0.01, y = -0.15, width = 0.95, height = 0.6) +
   cowplot::draw_plot_label(label = c("a", "b", "c"), size = 35,
                            x = c(0, 0, 0), y = c(0.99, 0.7, 0.3))
@@ -1358,7 +1361,10 @@ cum_fun_health(data2, year_fig)
 pl = cowplot::ggdraw() +
   cowplot::draw_plot(FIG_EMISSHEALTH_sdg13_av_ghg_aggPer_map, x = 0.01, y = 0.55, width = 0.95, height = 0.6) +
   cowplot::draw_plot(pl_ghg_by_ghg_emiss_diffAbs_world_boxplot +
-                       labs(y = expression(paste('[Mt ', CO[2], 'e]'))), x = 0.01, y = 0.30, width = 0.95, height = 0.4) +
+                       labs(y = 'GHG diff from\nReference [Mt CO2e]') +
+                       theme(
+                         axis.title.y = element_text(angle = 90, vjust = 0.5, hjust = 0.5)
+                       ), x = 0.01, y = 0.30, width = 0.95, height = 0.4) +
   cowplot::draw_plot(FIG_EMISSHEALTH_sdg3_deaths_per_map, x = 0.01, y = -0.15, width = 0.95, height = 0.6) +
   cowplot::draw_plot_label(label = c("a", "b", "c"), size = 35,
                            x = c(0, 0, 0), y = c(0.99, 0.7, 0.3))
@@ -1461,6 +1467,102 @@ dataa <- merge(
 
 #### SI ========================================================================
 
+
+#### PERCENT REGIONAL diff withPath
+food_econ_basket_bill_regional_diff_withpath = merge(
+  food_econ_basket_bill_regional %>%
+    dplyr::filter(scenario != 'ref'),
+  food_econ_basket_bill_regional_ref,
+  by = c('units_expenditure', 'region', 'year')
+) %>%
+  dplyr::mutate(diff = 100*(expenditure - ref_expenditure)/ref_expenditure) %>%
+  dplyr::group_by(region, year, scen_type, scen_path) %>%
+  dplyr::summarise(median_diff = median(diff),
+                   min_diff = min(diff),
+                   max_diff = max(diff)) %>%
+  dplyr::ungroup() %>%
+  dplyr::arrange(desc(region)) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(scen_type = factor(scen_type, levels = c('SPP','SNR','SPPNR'))) %>%
+  cut_region_names(short = T)
+
+pl_food_econ_basket_bill_regional_diff_withpath <- ggplot(food_econ_basket_bill_regional_diff_withpath %>%
+                                                            rename_pathways() %>%
+                                                            dplyr::filter(year == year_fig)) +
+  geom_bar(aes(x = region, y = median_diff, fill = scen_type), stat = 'identity', alpha = 0.75) +
+  geom_errorbar(aes(x = region, ymin = min_diff, ymax = max_diff), width=0.3, colour="#757575", alpha=1, linewidth=1.2) +
+  scale_fill_manual(values = scen_palette_refVsSppVsSnrVsSppnr,
+                    labels = scen_palette_refVsSppVsSnrVsSppnr.labs,
+                    name = 'Scenario') +
+  facet_grid(scen_path ~ scen_type, scales = 'fixed') +
+  # labs
+  labs(y = 'Daily expenditure per capita difference with Reference [%]', x = '') +
+  # theme
+  theme_light() +
+  theme(legend.key.size = unit(2, "cm"), legend.position = 'right', legend.direction = 'vertical',
+        strip.background = element_blank(),
+        strip.text = element_text(color = 'black', size = 40),
+        strip.text.y = element_text(angle = 0),
+        axis.text.x = element_text(size=22, angle = 90, hjust = 1, vjust = 0.25),
+        axis.text.y = element_text(size=30),
+        legend.text = element_text(size = 32),
+        legend.title = element_text(size = 40),
+        title = element_text(size = 30))
+ggsave(pl_food_econ_basket_bill_regional_diff_withpath, file = file.path(figures_path, paste0('sgd2_food_econ_basket_bill_regional_diff_',year_fig,'_withpath.pdf')),
+       width = 950, height = 500, units = 'mm', limitsize = FALSE)
+
+
+
+## MAPS
+food_econ_basket_bill_regional_diff_map_withpath <- food_econ_basket_bill_regional_diff_withpath %>%
+  # dplyr::filter desired year
+  dplyr::filter(year == year_fig) %>%
+  # merge with GCAM regions
+  dplyr::mutate('GCAM Region' = region) %>%
+  dplyr::inner_join(rfasst::GCAM_reg, by = 'GCAM Region', multiple = "all", relationship = "many-to-many") %>%
+  # merge with world data
+  dplyr::rename('adm0_a3' = 'ISO 3') %>%
+  # subset scen
+  dplyr::mutate(scen_type = toupper(scen_type)) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(scen_type = factor(scen_type, levels = c('SPP','SNR','SPPNR')))
+
+food_econ_basket_bill_regional_diff_map_withpath = merge(rnaturalearth::ne_countries(scale = "small", returnclass = "sf") %>%
+                                                  dplyr::mutate('adm0_a3' = dplyr::if_else(adm0_a3== 'ROU', 'ROM', adm0_a3)) %>%
+                                                  dplyr::mutate('adm0_a3' = dplyr::if_else(sovereignt=='South Sudan', 'SSD', adm0_a3)) %>%
+                                                  dplyr::filter(!adm0_a3 %in% c("ATA","FJI")),
+                                                food_econ_basket_bill_regional_diff_map_withpath, by = 'adm0_a3')
+
+pl_food_econ_basket_bill_world_regional_diffPer_map_withPath <- ggplot() +
+  # color map by regions
+  geom_sf(data = food_econ_basket_bill_regional_diff_map_withpath %>%
+            rename_pathways(), aes(fill = -median_diff)) +
+  facet_grid(scen_path ~ scen_type, scales = 'fixed') +
+  scale_fill_gradient2(low = "darkred", high = "darkgreen",
+                       mid = '#f7f7f7', midpoint = 0,
+                       name = expression(paste("Avoided daily expenditure per capita [%]","\n"))) +
+  # theme
+  guides(fill = guide_colorbar(title.position = "left")) +
+  theme_light() +
+  theme(axis.title=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_rect(fill = "#ffffff",
+                                        colour = "#ffffff"),
+        legend.position = 'bottom',legend.key.height = unit(0.75, 'cm'), legend.key.width = unit(2.5,'cm'),
+        legend.text = element_text(size = 35), legend.title = element_text(size = 30, vjust = 0.95),
+        strip.text = element_text(size = 40, color = 'black'),
+        strip.background =element_rect(fill="white"), title = element_text(size = 30))
+ggsave(pl_food_econ_basket_bill_world_regional_diffPer_map_withPath, file = file.path(figures_path, paste0('sgd2_food_econ_basket_bill_per_map_',year_fig,'_withPath.pdf')),
+       width = 500, height = 300, units = 'mm')
+
+
+
+
+## CUMFUN
 food_econ_basket_bill_regional_si <- merge(
   food_econ_basket_bill_regional %>%
     dplyr::filter(scen_type == 'REF') %>%
@@ -1636,7 +1738,7 @@ prob_distrib_policyCost(policyCost_regional_diff_si %>%
 pl = cowplot::ggdraw() +
   cowplot::draw_plot(pl_food_econ_basket_bill_regional_diff +
                        theme(legend.position = 'none') +
-                       labs(y = '[%]'), x = 0.01, y = 0.4, width = 0.975, height = 0.6) +
+                       labs(y = 'Daily food expenditure diff\nfrom Reference [%]'), x = 0.01, y = 0.4, width = 0.975, height = 0.6) +
   cowplot::draw_plot(pl_policyCost_regional_diff_map +
                        labs(y = ''), x = 0.01, y = 0.05, width = 0.95, height = 0.4) +
   cowplot::draw_plot_label(label = c("a", "b"), size = 35,
@@ -2207,7 +2309,7 @@ pl_ref_vs_rni <- ggplot(data = micronutrients_rni) +
                     name = 'Data source') +
   # facet_grid(. ~ nutrient_name) +
   facet_wrap(~ nutrient_item, scales = "free_y", ncol = 4) +
-  labs(y = 'intake', x = '') +
+  labs(y = 'Daily intake per capita', x = '') +
   # theme
   theme_light() +
   theme(legend.key.size = unit(2, "cm"), legend.position = 'bottom', legend.direction = 'horizontal',
@@ -2276,7 +2378,7 @@ for (n in c(1,2)) {
     scale_fill_manual(values = micronutrients_scenario_palette, name = 'Minerals & Vitamins', labels = micronutrients_scenario.labs) +
     facet_grid(region ~ scen_type) +
     # labs
-    labs(y = '% difference with Reference', x = '') +
+    labs(y = 'Intake diff from Reference [%]', x = '') +
     # theme
     theme_light() +
     theme(legend.key.size = unit(2, "cm"), legend.position = 'bottom', legend.direction = 'horizontal',
@@ -2335,7 +2437,7 @@ FIG_NUTRITION_micronutrients_diffPer_clean_world <- ggplot(data = micronutrients
   scale_fill_manual(values = micronutrients_scenario_palette, name = 'Minerals & Vitamins', labels = micronutrients_scenario.labs) +
   facet_grid(. ~ scen_type) +
   # labs
-  labs(y = '% difference with Reference', x = '') +
+  labs(y = 'Intake diff from Reference [%]', x = '') +
   # theme
   theme_light() +
   theme(legend.key.size = unit(2, "cm"), legend.position = 'bottom', legend.direction = 'horizontal',
@@ -2345,9 +2447,15 @@ FIG_NUTRITION_micronutrients_diffPer_clean_world <- ggplot(data = micronutrients
         axis.text.y = element_text(size=30),
         legend.text = element_text(size = 35),
         legend.title = element_text(size = 40, face = "bold"),
-        title = element_text(size = 40)) +
-  guides(fill = guide_legend(nrow = 2), shape = "none")
-ggsave(FIG_NUTRITION_micronutrients_diffPer_clean_world, file = file.path(figures_path, 'FIG_NUTRITION_micronutrients_diffPer_clean_world.pdf'),
+        title = element_text(size = 40),
+        axis.text.y.right = element_blank(),
+        axis.ticks.y.right = element_blank(),
+        axis.title.y.right = element_blank()) +
+  guides(fill = guide_legend(nrow = 2), shape = "none") +
+  # ggbreak::scale_y_break(  breaks = c(-100,0,100, 255, 270)) 
+  scale_y_continuous(breaks = c(-100, -50, 0, 50, 100, 255, 270)) +
+  ggbreak::scale_y_break(c(100, 255), scales = 'fixed', space = 0.5)#0.15)
+ggsave(FIG_NUTRITION_micronutrients_diffPer_clean_world, file = file.path(figures_path, 'FIG_NUTRITION_micronutrients_diffPer_clean_world2.pdf'),
        width = 1000, height = 500, units = 'mm', limitsize = F)
 
 
@@ -2373,12 +2481,71 @@ cum_fun_nutrients(micronutrients_sii, year_fig, type = 'micronutrient')
 # FIG - NUTRITION: MICRO, MACRO & ADESA
 #####################################################################################
 #####################################################################################
-pl = cowplot::ggdraw() +
-  cowplot::draw_plot(FIG_NUTRITION_macronutrients_boxplot_world + labs(y = '[%]') +
-                       theme(legend.key.size = unit(1, "cm")), x = 0.01, y = 0.75, width = 0.95, height = 0.25) +
-  cowplot::draw_plot(FIG_NUTRITION_micronutrients_diffPer_clean_world + labs(y = '[%]') +
-                       theme(legend.key.size = unit(1, "cm")), x = 0.01, y = 0.50, width = 0.95, height = 0.25) +
-  cowplot::draw_plot(pl_adesa_lolipop_h_withPath + labs(y = 'ADESA [index]'), x = 0.01, y = -0.01, width = 0.95, height = 0.5) +
-  cowplot::draw_plot_label(label = c("a", "b", "c"), size = 35,
-                           x = c(0, 0, 0), y = c(0.99, 0.77, 0.50))
-ggsave(file=file.path(figures_path, paste0('FIG_NUTRITION_',year_fig,'.pdf')), plot = pl, width = 800, height = 700, unit = 'mm')
+# NOT WORKING WITH ggbreak
+# pl = cowplot::ggdraw() +
+#   cowplot::draw_plot(FIG_NUTRITION_macronutrients_boxplot_world + labs(y = 'Intake diff from\nReference [%]') +
+#                        theme(legend.key.size = unit(1, "cm")), x = 0.01, y = 0.75, width = 0.95, height = 0.25) +
+#   cowplot::draw_plot(FIG_NUTRITION_micronutrients_diffPer_clean_world +
+#                        labs(y = 'Intake diff from\nReference [%]') +
+#                        theme(legend.key.size = unit(1, "cm")),
+#                      x = 0.01, y = 0.50, width = 0.95, height = 0.25) 
+#   cowplot::draw_plot(pl_adesa_lolipop_h_withPath + labs(y = 'ADESA [index]'), x = 0.01, y = -0.01, width = 0.95, height = 0.5) +
+#   cowplot::draw_plot_label(label = c("a", "b", "c"), size = 35,
+#                            x = c(0, 0, 0), y = c(0.99, 0.77, 0.50))
+# ggsave(file=file.path(figures_path, paste0('FIG_NUTRITION_',year_fig,'.pdf')), plot = pl, width = 800, height = 700, unit = 'mm')
+
+
+fig_a <- FIG_NUTRITION_macronutrients_boxplot_world +
+  labs(y = 'Intake diff from\nReference [%]', tag = 'a') +
+  theme(
+    plot.tag = element_text(size = 40, face = "bold")
+  )+
+  theme(legend.key.size = unit(1, "cm"))
+
+fig_b <- FIG_NUTRITION_micronutrients_diffPer_clean_world +
+  labs(y = 'Intake diff from\nReference [%]', tag = 'b') +
+  theme(
+    plot.tag = element_text(size = 40, face = "bold")
+  )+
+  theme(legend.key.size = unit(1, "cm"))
+
+fig_c <- pl_adesa_lolipop_h_withPath +
+  labs(y = 'ADESA [index]', tag = 'c') +
+  theme(
+    plot.tag = element_text(size = 40, face = "bold")
+  )
+
+pl_ab <- fig_a / fig_b
+ggsave(
+  filename = file.path(figures_path, paste0('FIG_NUTRITION_AB', year_fig, '.png')),
+  plot = pl_ab,
+  width = 800, height = 350, units = 'mm'
+)
+ggsave(
+  filename = file.path(figures_path, paste0('FIG_NUTRITION_C', year_fig, '.png')),
+  plot = fig_c,
+  width = 800, height = 350, units = 'mm'
+)
+
+library(patchwork)
+
+fig_ab_path <- file.path(figures_path, paste0('FIG_NUTRITION_AB', year_fig, '.png'))
+fig_ab_magick <- magick::image_read(fig_ab_path)
+fig_ab_plot <- cowplot::ggdraw() + cowplot::draw_image(fig_ab_magick)
+
+fig_c_path <- file.path(figures_path, paste0('FIG_NUTRITION_C', year_fig, '.png'))
+fig_c_magick <- magick::image_read(fig_c_path)
+fig_c_plot <- cowplot::ggdraw() + cowplot::draw_image(fig_c_magick)
+
+pl = cowplot::ggdraw() + 
+  cowplot::draw_plot(fig_ab_plot,
+                     x = 0.01, y = 0.5, width = 1, height = 0.5) +
+  cowplot::draw_plot(fig_c_plot,
+                     x = 0.01, y = -0.01, width = 1, height = 0.5)
+
+
+ggsave(
+  filename = file.path(figures_path, paste0('FIG_NUTRITION_', year_fig, '.pdf')),
+  plot = pl,
+  width = 800, height = 700, units = 'mm'
+)
