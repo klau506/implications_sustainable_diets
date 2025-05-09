@@ -127,7 +127,7 @@ cum_fun_nutrients = function(df, y, type) {
     pl <- ggplot(dat_tmp_reg %>%
                    filter(scen_type != 'REF'),
                  aes(value, ecdf, color = scen_type, fill = scen_type, linetype = scen_path)) +
-      geom_line(linewidth = 2) +
+      geom_line(linewidth = 3) +
       geom_point(data = df_reg %>%
                    filter(scen_type == 'REF'),
                  aes(x = value, y = 1, color = scen_type, fill = scen_type),
@@ -146,11 +146,11 @@ cum_fun_nutrients = function(df, y, type) {
       theme_light() +
       theme(legend.key.size = unit(2, "cm"), legend.position = 'bottom', legend.direction = 'horizontal',
             strip.background = element_blank(),
-            strip.text = element_text(color = 'black', size = 45),
-            axis.title = element_text(size=50),
-            axis.text = element_text(size=45),
-            legend.text = element_text(size = 45),
-            legend.title = element_text(size = 50)) +
+            strip.text = element_text(color = 'black', size = 50),
+            axis.title = element_text(size=60),
+            axis.text = element_text(size=50),
+            legend.text = element_text(size = 50),
+            legend.title = element_text(size = 60)) +
       guides(color = guide_legend(override.aes = list(linewidth = 5)),
              fill = guide_legend(override.aes = list(linewidth = 5)),
              linetype = guide_legend(keywidth = 10,override.aes = list(linewidth = 5)))
@@ -320,7 +320,7 @@ cum_fun_water = function(df, y) {
     pl <- ggplot(dat_tmp_reg %>%
                    filter(scen_type != 'REF'),
                  aes(value, ecdf, color = scen_type, fill = scen_type, linetype = scen_path)) +
-      geom_line(linewidth = 2) +
+      geom_line(linewidth = 3) +
       geom_point(data = df_reg %>%
                    filter(scen_type == 'REF'),
                  aes(x = value, y = 1, color = scen_type, fill = scen_type),
@@ -339,11 +339,11 @@ cum_fun_water = function(df, y) {
       theme_light() +
       theme(legend.key.size = unit(2, "cm"), legend.position = 'bottom', legend.direction = 'horizontal',
             strip.background = element_blank(),
-            strip.text.y = element_text(color = 'black', size = 45, angle = 0, hjust = 0),
-            axis.title = element_text(size=50),
-            axis.text = element_text(size=45),
-            legend.text = element_text(size = 45),
-            legend.title = element_text(size = 50)) +
+            strip.text.y = element_text(color = 'black', size = 50, angle = 0, hjust = 0),
+            axis.title = element_text(size=60),
+            axis.text = element_text(size=50),
+            legend.text = element_text(size = 50),
+            legend.title = element_text(size = 60)) +
       guides(color = guide_legend(override.aes = list(linewidth = 5)),
              fill = guide_legend(override.aes = list(linewidth = 5)),
              linetype = guide_legend(keywidth = 10,override.aes = list(linewidth = 5)))
@@ -386,7 +386,7 @@ rfd_index_water = function(index, y) {
   index = index %>%
     dplyr::filter(scen_type != 'REF')
 
-  ylab = 'Rainfed water share [%]'
+  ylab = 'Land type using rainfed water [%]'
 
   for (i in c(1,2)) {
     reg = unique(index$region)
@@ -769,7 +769,7 @@ cum_fun_health = function(df, y) {
     pl <- ggplot(data = dat_tmp_reg %>%
                    filter(scen_type != 'REF'),
                  aes(value, ecdf, color = scen_type, fill = scen_type, linetype = scen_path)) +
-      geom_line(linewidth = 2) +
+      geom_line(linewidth = 3) +
       geom_point(data = df_reg %>%
                    filter(scen_type == 'REF'),
                  aes(x = ref_value, y = 1, color = scen_type, fill = scen_type),
@@ -788,13 +788,13 @@ cum_fun_health = function(df, y) {
       theme_light() +
       theme(legend.key.size = unit(2, "cm"), legend.position = 'bottom', legend.direction = 'horizontal',
             strip.background = element_blank(),
-            strip.text.x = element_text(color = 'black', size = 45),
-            strip.text.y = element_text(color = 'black', size = 45, angle = 0, hjust = 0),
-            axis.title = element_text(size=50),
-            axis.text = element_text(size=45),
-            axis.text.x = element_text(size=45, angle = 45, vjust = 1, hjust = 1),
-            legend.text = element_text(size = 45),
-            legend.title = element_text(size = 50)) +
+            strip.text.x = element_text(color = 'black', size = 50),
+            strip.text.y = element_text(color = 'black', size = 50, angle = 0, hjust = 0),
+            axis.title = element_text(size=60),
+            axis.text = element_text(size=50),
+            axis.text.x = element_text(size=50, angle = 45, vjust = 1, hjust = 1),
+            legend.text = element_text(size = 50),
+            legend.title = element_text(size = 55)) +
       guides(color = guide_legend(override.aes = list(linewidth = 5)),
              fill = guide_legend(override.aes = list(linewidth = 5)),
              linetype = guide_legend(keywidth = 10,override.aes = list(linewidth = 5)))
@@ -863,7 +863,7 @@ cum_fun_foodbasket = function(df, y) {
     pl <- ggplot(data = dat_tmp_reg %>%
                    filter(scen_type != 'REF'),
                  aes(value, ecdf, color = scen_type, fill = scen_type, linetype = scen_path)) +
-      geom_line(linewidth = 2) +
+      geom_line(linewidth = 3) +
       geom_point(data = df_reg %>%
                    filter(scen_type == 'REF'),
                  aes(x = ref_value, y = 1, color = scen_type, fill = scen_type),
@@ -882,13 +882,13 @@ cum_fun_foodbasket = function(df, y) {
       theme_light() +
       theme(legend.key.size = unit(2, "cm"), legend.position = 'bottom', legend.direction = 'horizontal',
             strip.background = element_blank(),
-            strip.text.x = element_text(color = 'black', size = 45),
-            strip.text.y = element_text(color = 'black', size = 45, angle = 0, hjust = 0),
-            axis.title = element_text(size=50),
-            axis.text = element_text(size=45),
-            axis.text.x = element_text(size=45, angle = 45, vjust = 1, hjust = 1),
-            legend.text = element_text(size = 45),
-            legend.title = element_text(size = 50)) +
+            strip.text.x = element_text(color = 'black', size = 50),
+            strip.text.y = element_text(color = 'black', size = 50, angle = 0, hjust = 0),
+            axis.title = element_text(size=60),
+            axis.text = element_text(size=50),
+            axis.text.x = element_text(size=50, angle = 45, vjust = 1, hjust = 1),
+            legend.text = element_text(size = 50),
+            legend.title = element_text(size = 55)) +
       guides(color = guide_legend(override.aes = list(linewidth = 5)),
              fill = guide_legend(override.aes = list(linewidth = 5)),
              linetype = guide_legend(keywidth = 10,override.aes = list(linewidth = 5)))
@@ -1054,7 +1054,7 @@ prob_distrib_policyCost = function(df, y) {
                        fill = scen_type, linetype = scen_path),
                    linewidth = 0.8, alpha = 0.25) +
       geom_vline(aes(color = scen_type, fill = scen_type, linetype = scen_path, xintercept = medi),
-                 data = df_medi_reg, linewidth = 1.5) +
+                 data = df_medi_reg, linewidth = 2) +
       geom_point(data = df_ref_reg,
                  aes(x = ref_value, y = 0, color = scen_type, fill = scen_type),
                  size = 7, alpha = 0.95, shape = 23, stroke = 2) +
@@ -1073,12 +1073,12 @@ prob_distrib_policyCost = function(df, y) {
       theme_light() +
       theme(legend.key.size = unit(2, "cm"), legend.position = 'bottom', legend.direction = 'horizontal',
             strip.background = element_blank(),
-            strip.text = element_text(color = 'black', size = 45),
-            axis.title = element_text(size=50),
-            axis.text.y = element_text(size=45),
-            axis.text.x = element_text(size=45, angle = 45, hjust = 1, vjust = 1),
-            legend.text = element_text(size = 45),
-            legend.title = element_text(size = 50)) +
+            strip.text = element_text(color = 'black', size = 50),
+            axis.title = element_text(size=65),
+            axis.text.y = element_text(size=50),
+            axis.text.x = element_text(size=50, angle = 45, hjust = 1, vjust = 1),
+            legend.text = element_text(size = 50),
+            legend.title = element_text(size = 60)) +
       guides(color = guide_legend(override.aes = list(linewidth = 5)),
              fill = guide_legend(override.aes = list(linewidth = 5)),
              linetype = guide_legend(keywidth = 10,override.aes = list(linewidth = 5)))

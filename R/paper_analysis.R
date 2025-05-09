@@ -903,7 +903,7 @@ pl_water_consumption_agriculture_world_irr_rfd <- ggplot(data = ag_water_consump
   scale_color_manual(values = scen_palette_refVsSppVsSnrVsSppnr, name = 'Scenario') +
   scale_fill_manual(values = scen_palette_refVsSppVsSnrVsSppnr, name = 'Scenario') +
   # labs
-  labs(y = expression(paste("Land type using RFD water [%]")), x = '') +
+  labs(y = expression(paste("Land type using rainfed water [%]")), x = '') +
   # theme
   theme_light() +
   guides(color = guide_legend(keywidth = 3, override.aes = list(linewidth = 2))) +
@@ -2314,12 +2314,13 @@ pl_ref_vs_rni <- ggplot(data = micronutrients_rni) +
   theme_light() +
   theme(legend.key.size = unit(2, "cm"), legend.position = 'bottom', legend.direction = 'horizontal',
         strip.background = element_blank(),
-        strip.text = element_text(color = 'black', size = 40),
-        strip.text.y = element_text(color = 'black', size = 40, angle = 0, hjust = 0, vjust = 0.25),
+        strip.text = element_text(color = 'black', size = 50),
+        strip.text.y = element_text(color = 'black', size = 50, angle = 0, hjust = 0, vjust = 0.25),
         axis.text.x = element_text(size=25, angle = 45, hjust = 1, vjust = 0.95),
-        axis.text.y = element_text(size=30),
-        legend.text = element_text(size = 35),
-        legend.title = element_text(size = 40),
+        axis.text.y = element_text(size=40),
+        axis.title = element_text(size=55),
+        legend.text = element_text(size = 50),
+        legend.title = element_text(size = 55),
         title = element_text(size = 40),
         panel.spacing.x = unit(1, "cm"))
 ggsave(pl_ref_vs_rni, file = file.path(figures_path, paste0('sdg3_micronutrients_rni_',year_fig,'.pdf')),
@@ -2371,14 +2372,14 @@ for (n in c(1,2)) {
     geom_hline(yintercept = 0, color = 'black') +
     # barchart
     geom_bar(aes(x = as.factor(nutrient_name), y = median_value, fill = as.factor(nutrient_name)),
-             stat = "identity", color = NA, width = 0.7) +
+             stat = "identity", color = NA, width = 0.75) +
     geom_errorbar(aes(x=as.factor(nutrient_name), y=median_value, ymin = min_value, ymax = max_value,
                       group = interaction(nutrient_name, scen_type)),
                   position = position_dodge(width = 0.25), width = 0.3, color = '#636363') +
     scale_fill_manual(values = micronutrients_scenario_palette, name = 'Minerals & Vitamins', labels = micronutrients_scenario.labs) +
     facet_grid(region ~ scen_type) +
     # labs
-    labs(y = 'Intake diff from Reference [%]', x = '') +
+    labs(y = 'Percentual intake change compared to Reference [%]', x = '') +
     # theme
     theme_light() +
     theme(legend.key.size = unit(2, "cm"), legend.position = 'bottom', legend.direction = 'horizontal',
@@ -2391,7 +2392,8 @@ for (n in c(1,2)) {
           legend.title = element_text(size = 40),
           title = element_text(size = 40),
           panel.spacing.x = unit(1, "cm")) +
-    guides(fill = guide_legend(nrow = 2), shape = "none")
+    guides(fill = guide_legend(nrow = 2), shape = "none") +
+    ylim(-105,150)
   if (n == 1) {
     pl_micronutrients_diffPer_regional_bars_subset <- pl_micronutrients_diffPer_regional_bars_subset + theme(legend.position = 'none')
   }
@@ -2430,7 +2432,7 @@ FIG_NUTRITION_micronutrients_diffPer_clean_world <- ggplot(data = micronutrients
   geom_hline(yintercept = 0, color = 'black') +
   # barchart
   geom_bar(aes(x = as.factor(nutrient_name), y = median_value, fill = as.factor(nutrient_name)),
-           stat = "identity", color = NA, width = 0.5) +
+           stat = "identity", color = NA, width = 0.75) +
   geom_errorbar(aes(x=as.factor(nutrient_name), y=median_value, ymin = min_value, ymax = max_value,
                     group = interaction(nutrient_name, scen_type)),
                 position = position_dodge(width = 0.25), width = 0.3, color = '#636363') +
@@ -2515,7 +2517,7 @@ fig_c <- pl_adesa_lolipop_h_withPath +
     plot.tag = element_text(size = 40, face = "bold")
   )
 
-pl_ab <- fig_a / fig_b
+pl_ab <- fig_a / fig_b + plot_layout(heights = c(1, 1.5))
 ggsave(
   filename = file.path(figures_path, paste0('FIG_NUTRITION_AB', year_fig, '.png')),
   plot = pl_ab,
