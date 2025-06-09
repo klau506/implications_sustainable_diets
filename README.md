@@ -1,9 +1,9 @@
 # Environmental and societal implications of transitioning to sustainable diets
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13993989.svg)](https://doi.org/10.5281/zenodo.13993989)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15623676.svg)](https://doi.org/10.5281/zenodo.15623676)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Supplementary material for the journal publication Rodés-Bachs, C., Sampedro, J., Van de Ven, D., Horowitz, R., Pardo, G., and Zhao, X. (2024) Environmental and societal implications of transitioning to sustainable diets.
+Supplementary material for the journal publication Rodés-Bachs, C., Sampedro, J., Van de Ven, D., Horowitz, R., Pardo, G., and Zhao, X. (2025) Environmental and societal implications of transitioning to sustainable diets.
 
 This repository is released under the Apache v2.0 license; see the LICENSE for details.
 
