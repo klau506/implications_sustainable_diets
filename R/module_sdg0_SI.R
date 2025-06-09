@@ -74,8 +74,7 @@ sdg0_scen_path_probdistrib <- function() {
           strip.background = element_blank(),
           strip.text = element_text(color = 'black', size = 40),
           strip.text.y = element_text(angle = 0),
-          axis.text.y = element_blank(),
-          axis.text.x = element_text(size=30),
+          axis.text = element_text(size=30),
           legend.text = element_text(size = 35),
           legend.title = element_text(size = 40),
           plot.background = element_rect(fill = "white", color = NA),
@@ -167,8 +166,7 @@ sdg0_scen_path_probdistrib <- function() {
           strip.background = element_blank(),
           strip.text = element_text(color = 'black', size = 40),
           strip.text.y = element_text(angle = 0),
-          axis.text.y = element_blank(),
-          axis.text.x = element_text(size=30),
+          axis.text = element_text(size=30),
           legend.text = element_text(size = 35),
           legend.title = element_text(size = 40),
           plot.background = element_rect(fill = "white", color = NA),
@@ -248,12 +246,16 @@ sdg0_scen_path_probdistrib <- function() {
 
   # Insert the custom legend into the plot
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend_color = cowplot::get_legend(p_rumin +
-                                      ggplot2::theme(legend.direction = 'vertical') +
-                                      ggplot2::guides(shape = 'none'))
-  legend_shape = cowplot::get_legend(p_rumin +
-                                      ggplot2::theme(legend.direction = 'vertical') +
-                                      ggplot2::guides(color = 'none', fill = 'none'))
+  legend_color = cowplot::get_plot_component(p_rumin +
+                                               ggplot2::theme(legend.direction = 'vertical') +
+                                               ggplot2::guides(shape = 'none'),
+                                             "guide-box",
+                                             return_all = TRUE)[[3]]
+  legend_shape = cowplot::get_plot_component(p_rumin +
+                                               ggplot2::theme(legend.direction = 'vertical') +
+                                               ggplot2::guides(color = 'none', fill = 'none'),
+                                             "guide-box",
+                                             return_all = TRUE)[[3]]
 
   pl <- cowplot::ggdraw() +
     cowplot::draw_plot(cowplot::plot_grid(legend_color,blank_p,ncol=1), x = 0.4615, y = -0.2275, width = 1, height = 1) +
