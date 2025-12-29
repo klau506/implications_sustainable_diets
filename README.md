@@ -1,9 +1,9 @@
-# Environmental and societal implications of transitioning to sustainable diets
+# Region-specific and nutritionally adequate dietary transitions can bolster sustainability and socioeconomic benefits
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15623676.svg)](https://doi.org/10.5281/zenodo.15623676)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Supplementary material for the journal publication Rodés-Bachs, C., Sampedro, J., Van de Ven, D., Horowitz, R., Pardo, G., and Zhao, X. (2025) Environmental and societal implications of transitioning to sustainable diets.
+Supplementary material for the journal publication Rodés-Bachs, C., Sampedro, J., Van de Ven, D., Horowitz, R., Pardo, G., and Zhao, X. (2025) Region-specific and nutritionally adequate dietary transitions can bolster sustainability and socioeconomic benefits.
 
 This repository is released under the Apache v2.0 license; see the LICENSE for details.
 
@@ -13,15 +13,14 @@ This repository is released under the Apache v2.0 license; see the LICENSE for d
 This repository contains the figures and analysis code used in the study. It is structured in the following way:
 
 - `R` folder: R scripts.
-- `output` folder: GCAM output files.
-- `input` folder: data inputs for the analysis and figure creation.
-- `figures` folder: folder where the created figures will be stored.
+- `data` folder: folder to store the data for the analysis and figure creation.
+- `results` folder: folder where the created figures will be stored.
 
-Due to the `output` and `input` folders' size, the corresponding data can be found in XXX Zenodo archive.
+Due to the `output` and `input` folders' size, the corresponding data can be found in [this Zenodo archive](https://doi.org/10.5281/zenodo.18086406).
 
 ## How to run the code?
 
-1. Download the data from [this Zenodo archive](https://doi.org/10.5281/zenodo.13993989) and unpack the files into the corresponding `input` and `output` folder.
+1. Download the data from [this Zenodo archive](https://doi.org/10.5281/zenodo.18086406) and unpack the files. Store them in the `data` folder.
 2. Clone or download this repository to your local computer.
 3. Run the code. If you are familiarized with Docker we recommend you to follow option `a)`, which provides you an R running environment. Otherwise, you can follow option `b)`, which requires Rstudio and to install manually the necessary libraries.
 

@@ -65,6 +65,7 @@ RUN R -e "install.packages('tidyterra')"
 RUN R -e "remotes::install_github('JGCRI/rmap')"
 RUN R -e "remotes::install_github('bc3LC/rfasst')"
 RUN R -e "install.packages('rnaturalearth')"
+RUN R -e "install.packages('lemon')"
 
 # clone repo
 RUN apt-get install -y git

@@ -2,7 +2,7 @@
 # ==============================================================================
 
 # create folder for the figures
-fig_folder = 'figures/methodology'
+fig_folder = 'results'
 if (!dir.exists(fig_folder)) dir.create(fig_folder)
 
 # load style
@@ -26,7 +26,7 @@ order_facets = function(data, col_scen_type = 'scen_type') {
 }
 
 
-example_data = read.csv(file.path(getwd(), 'inputs/mappings', 'db.mapping.complete.csv')) %>%
+example_data = read.csv(file.path('data/inputs/mappings', 'db.mapping.complete.csv')) %>%
   dplyr::select(scenario) %>%
   tidyr::separate(scenario, into = c("protein_type", "scenario_pathway", "final_share", "peak_year_title", "peak_year", "slope_title", "slope"), sep = "_", remove = FALSE) %>%
   dplyr::filter(protein_type != 'ref') %>%
@@ -201,12 +201,12 @@ ggplot2::ggsave(pl_gen, file = file.path(fig_folder, 'fig1_SI_overview_scen_gene
 ## combination with scenario details table
 pl_table <- ggplot2::ggplot() +
   ggplot2::xlim(0, 10) + ggplot2::ylim(0, 8) +
-  ggplot2::annotation_custom(grid::rasterGrob(png::readPNG(file.path(fig_folder, 'table_scenarios.png')), interpolate = TRUE),
+  ggplot2::annotation_custom(grid::rasterGrob(png::readPNG(file.path('data/inputs/figures', 'table_scenarios.png')), interpolate = TRUE),
                     xmin = 0, xmax = 10, ymin = 0, ymax = 8) +
   ggplot2::theme_void()
 ggplot2::ggsave(pl_table, file = file.path(fig_folder, 'fig1_SI_overview_scen_generation_uncert_table.pdf'), width = 750, height = 500, units = 'mm')
 
-colored_img <- image_colorize(image_read(file.path(fig_folder, 'arrow.png')), "#FFE5E5", opacity = 100)
+colored_img <- image_colorize(image_read(file.path('data/inputs/figures', 'arrow.png')), "#FFE5E5", opacity = 100)
 temp_file <- tempfile(fileext = ".png")
 image_write(colored_img, path = temp_file, format = "png")
 pl_arrow <- ggplot2::ggplot() +

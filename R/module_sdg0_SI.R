@@ -7,7 +7,7 @@ library(patchwork)
 
 sdg0_scen_path_probdistrib <- function() {
   
-  population_weights = get(load(file = file.path('input/nutrition/population_weigths.RData')))
+  population_weights = get(load(file = file.path('data/inputs/nutrition/population_weigths.RData')))
   
   ##### PLANT
   df_plot <- plant_percentage %>%
@@ -74,7 +74,8 @@ sdg0_scen_path_probdistrib <- function() {
           strip.background = element_blank(),
           strip.text = element_text(color = 'black', size = 40),
           strip.text.y = element_text(angle = 0),
-          axis.text = element_text(size=30),
+          axis.text.y = element_blank(),
+          axis.text.x = element_text(size=30),
           legend.text = element_text(size = 35),
           legend.title = element_text(size = 40),
           plot.background = element_rect(fill = "white", color = NA),
@@ -166,7 +167,8 @@ sdg0_scen_path_probdistrib <- function() {
           strip.background = element_blank(),
           strip.text = element_text(color = 'black', size = 40),
           strip.text.y = element_text(angle = 0),
-          axis.text = element_text(size=30),
+          axis.text.y = element_blank(),
+          axis.text.x = element_text(size=30),
           legend.text = element_text(size = 35),
           legend.title = element_text(size = 40),
           plot.background = element_rect(fill = "white", color = NA),
@@ -246,16 +248,12 @@ sdg0_scen_path_probdistrib <- function() {
 
   # Insert the custom legend into the plot
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend_color = cowplot::get_plot_component(p_rumin +
-                                               ggplot2::theme(legend.direction = 'vertical') +
-                                               ggplot2::guides(shape = 'none'),
-                                             "guide-box",
-                                             return_all = TRUE)[[3]]
-  legend_shape = cowplot::get_plot_component(p_rumin +
-                                               ggplot2::theme(legend.direction = 'vertical') +
-                                               ggplot2::guides(color = 'none', fill = 'none'),
-                                             "guide-box",
-                                             return_all = TRUE)[[3]]
+  legend_color = cowplot::get_legend(p_rumin +
+                                      ggplot2::theme(legend.direction = 'vertical') +
+                                      ggplot2::guides(shape = 'none'))
+  legend_shape = cowplot::get_legend(p_rumin +
+                                      ggplot2::theme(legend.direction = 'vertical') +
+                                      ggplot2::guides(color = 'none', fill = 'none'))
 
   pl <- cowplot::ggdraw() +
     cowplot::draw_plot(cowplot::plot_grid(legend_color,blank_p,ncol=1), x = 0.4615, y = -0.2275, width = 1, height = 1) +
@@ -369,8 +367,9 @@ sdg0_ref_probdistrib <- function() {
     cowplot::draw_plot(p_rumin + theme(legend.position = 'none'),
                        x = 0.0, y = 0.0, width = 0.925, height = 0.485) +
     cowplot::draw_plot(p_plant + theme(legend.position = 'none'),
-                       x = 0.0, y = 0.5, width = 0.925, height = 0.485)
-
+                       x = 0.0, y = 0.5, width = 0.925, height = 0.485) +
+    cowplot::draw_plot_label(label = c("a", "b"), size = 35,
+                             x = c(0, 0), y = c(0.99, 0.49))
   ggsave(pl, filename = file.path(figures_path, 'sdg0_ref_prot_intake.pdf'),
          width = 800, height = 800, units = 'mm', limitsize = F)
 

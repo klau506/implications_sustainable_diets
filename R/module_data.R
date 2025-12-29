@@ -17,7 +17,7 @@ mix_data <- function(query) {
   for (item in queries_all_list) {
     data <- bind_rows(data, item[[query]])
   }
-  
+
   return(data)
 }
 
@@ -25,13 +25,13 @@ mix_data <- function(query) {
 aggregate_land_use_type <- function(data) {
   data <- data %>%
     dplyr::mutate(land_use_type = ifelse(landleaf %in% c("UnmanagedHardwood_Forest", "UnmanagedSoftwood_Forest",
-                                                         'Softwood_Forest', 'ProtectedUnmanagedHardwood_Forest',
-                                                         'Hardwood_Forest', 'ProtectedUnmanagedSoftwood_Forest'), 'Forest',
-                                         ifelse(landleaf %in% c('crops','biomass','otherarable'), 'Cropland',
-                                                ifelse(landleaf %in% c("pasture (grazed)","pasture (other)"), 'Pasture',
-                                                       'Other Natural')))) %>%
+                                                  'Softwood_Forest', 'ProtectedUnmanagedHardwood_Forest',
+                                                  'Hardwood_Forest', 'ProtectedUnmanagedSoftwood_Forest'), 'Forest',
+                                  ifelse(landleaf %in% c('crops','biomass','otherarable'), 'Cropland',
+                                         ifelse(landleaf %in% c("pasture (grazed)","pasture (other)"), 'Pasture',
+                                                'Other Natural')))) %>%
     dplyr::select(-landleaf)
-  
+
   return(data)
 }
 
@@ -39,7 +39,7 @@ rename_pathways <- function(data) {
   data <- data %>%
     dplyr::mutate(scen_path = ifelse(scen_path == 'all', 'GlobT',
                                      ifelse(scen_path == 'plus', 'RegG', scen_path)))
-  
+
   return(data)
 }
 
