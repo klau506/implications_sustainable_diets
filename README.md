@@ -1,6 +1,6 @@
 # Region-specific and nutritionally adequate dietary transitions can bolster sustainability and socioeconomic benefits
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15623676.svg)](https://doi.org/10.5281/zenodo.15623676)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18092979.svg)](https://doi.org/10.5281/zenodo.18092979)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Supplementary material for the journal publication Rodés-Bachs, C., Sampedro, J., Van de Ven, D., Horowitz, R., Pardo, G., and Zhao, X. (2025) Region-specific and nutritionally adequate dietary transitions can bolster sustainability and socioeconomic benefits.

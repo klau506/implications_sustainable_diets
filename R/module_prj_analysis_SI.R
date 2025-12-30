@@ -75,7 +75,7 @@ prob_distrib_nutrients = function(df, y, type) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = cowplot::get_legend(pl1 +
+  legend = lemon::g_legend(pl +
                                 theme(legend.direction = 'horizontal'))
 
   pl <- cowplot::ggdraw() +
@@ -806,7 +806,7 @@ cum_fun_health = function(df, y) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = cowplot::get_legend(pl1 +
+  legend = lemon::g_legend(pl +
                                 theme(legend.direction = 'horizontal'))
 
   pl <- cowplot::ggdraw() +
@@ -900,7 +900,7 @@ cum_fun_foodbasket = function(df, y) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = cowplot::get_legend(pl1 +
+  legend = lemon::g_legend(pl +
                                 theme(legend.direction = 'horizontal'))
 
   pl <- cowplot::ggdraw() +
@@ -992,7 +992,7 @@ cum_fun_policyCost = function(df, y) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = cowplot::get_legend(pl1 +
+  legend = lemon::g_legend(pl +
                                 theme(legend.direction = 'horizontal'))
 
   pl <- cowplot::ggdraw() +
@@ -1090,8 +1090,23 @@ prob_distrib_policyCost = function(df, y) {
   }
 
   blank_p <- patchwork::plot_spacer() + theme_void()
-  legend = cowplot::get_legend(pl1 +
-                                theme(legend.direction = 'horizontal'))
+  legend = lemon::g_legend(ggplot(df_reg) +
+                                 geom_line(data = df_reg %>% filter(scen_type != 'REF'),
+                                              aes(x = value, y = 0, color = scen_type, 
+                                                  linetype = scen_path),
+                                              linewidth = 0.8) +
+                                 scale_color_manual(values = scen_palette_refVsSppVsSnrVsSppnr,
+                                                    name = 'Scenario',
+                                                    labels = scen_palette_refVsSppVsSnrVsSppnr.labs) +
+                                 scale_linetype_manual(values = scen_path_palette_refVsSppVsSnrVsSppnr2,
+                                                       name = 'Pathway',
+                                                       labels = scen_path_palette_refVsSppVsSnrVsSppnr2.labs) +
+                                 theme_light() +
+                                 theme(legend.key.size = unit(2, "cm"), legend.position = 'bottom', legend.direction = 'horizontal',
+                                       legend.text = element_text(size = 45),
+                                       legend.title = element_text(size = 50)) +
+                                 guides(color = guide_legend(override.aes = list(linewidth = 5)),
+                                        linetype = guide_legend(keywidth = 10,override.aes = list(linewidth = 5))))
 
   pl <- cowplot::ggdraw() +
     cowplot::draw_plot(pl1 + theme(legend.position = 'none'),
